@@ -69,7 +69,8 @@ window.VARS = {
 	layerColor: randomColor({ count: 40, seed: 1 }),
 	URL: {
 		department: "json/department.json",
-		lookup: "json/lookup.json",
+		//lookup: "json/lookup.json",
+		lookup: "json/lookup/{DEPT}.json",
 	},
 	BASE: [
 		{ dummy: true },  //only dummy object dedicated to fill first slot. DO NOT REMOVE!
@@ -123,7 +124,7 @@ window.VARS = {
 			},
 		},
 		{
-			url: "json/datasource_20210118.json", 
+			url: "json/datasource_20211112.json", 
 			label: "", 
 			style: { color: "#ff7800", weight: 1, opacity: 0.4, fillOpacity: 0.1, className: "base-layer-data" },
 			fnOnEachFeature: null,
