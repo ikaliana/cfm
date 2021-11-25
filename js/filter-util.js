@@ -58,7 +58,9 @@ function PopulateLookup(department)
 	var fn_always = function(data, status, jqXHR) { if(jqXHR.status == 200) InitMap(department); };
 	// var fn_always = function(data, status, jqXHR) { SPIN.hide(); };
 
-	UTIL.ajax(VARS.URL.lookup,HTTP_CONST.GET,null,fn_done,UTIL.errorAlert,fn_always);
+	let lookup_url = VARS.URL.lookup.replace("{DEPT}",department) + "?" + Date.now();
+	UTIL.ajax(lookup_url,HTTP_CONST.GET,null,fn_done,UTIL.errorAlert,fn_always);
+	// UTIL.ajax(VARS.URL.lookup,HTTP_CONST.GET,null,fn_done,UTIL.errorAlert,fn_always);
 }
 
 function PopulateDepartment()
