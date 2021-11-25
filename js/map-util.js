@@ -18,7 +18,7 @@ var mainFilterValue = null;
 
 function GetPopupContent(feature) {
 	function FormatValue(val,dec) {
-		return (val == "Sin información" || val == "N.A.") ? val : UTIL.formatNum(parseFloat(val.replace(/[^\d\.\-]/g, "")),dec);
+		return (val == "Sin información" || val == "N.A." || val == null) ? val : UTIL.formatNum(parseFloat(val.toString().replace(/[^\d\.\-]/g, "")),dec);
 	};
 	p = feature.properties;
 	var popupContent = '';
@@ -172,7 +172,7 @@ function GetFilteredLayers(data)
 
 function GetCleanValue(val)
 {
-	return (val == "Sin información" || val == "N.A.") ? 0 : parseFloat(val.replace(/[^\d\.\-]/g, ""));
+	return (val == "Sin información" || val == "N.A." || val == null) ? 0 : parseFloat(val.toString().replace(/[^\d\.\-]/g, ""));
 }
 
 function PopulateGraph(data)
