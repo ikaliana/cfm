@@ -250,7 +250,7 @@ function PopulateGraph(data)
 	else {
 		if(mainFilterLabel != "") {
 			var tmpComNames = jsonData.map(function(data) {
-				console.log(data.properties.Com_name);
+				// console.log(data.properties.Com_name);
 				return data.properties.Com_name;
 			});
 			tmpComNames = [...new Set([...tmpComNames])];
