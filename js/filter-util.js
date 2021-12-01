@@ -54,6 +54,8 @@ function PopulateFilter(data)
 
 function PopulateLookup(department)
 {
+	//prepare this function for multi-department value
+	
 	var fn_done = function(data) { PopulateFilter(data); };
 	var fn_always = function(data, status, jqXHR) { if(jqXHR.status == 200) InitMap(department); };
 	// var fn_always = function(data, status, jqXHR) { SPIN.hide(); };
