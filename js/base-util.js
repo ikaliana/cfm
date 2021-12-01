@@ -75,9 +75,10 @@ window.VARS = {
 	BASE: [
 		{ dummy: true },  //only dummy object dedicated to fill first slot. DO NOT REMOVE!
 		{
-			url: "json/Limite_Ucayali.json", 
+			// url: "json/Limite_Ucayali.json", 
+			url: "json/boundary/boundary_5_80.json", 
 			label: "", 
-			style: { color: "#000000", weight: 2, opacity: 0.6, fillOpacity: 0, className: "base-layer-4", dashArray: "4"},
+			style: { color: "#000000", weight: 1, opacity: 0.6, fillOpacity: 0, className: "base-layer-4", dashArray: "4"},
 			fnOnEachFeature: null,
 		},
 		{
@@ -124,7 +125,7 @@ window.VARS = {
 			},
 		},
 		{
-			url: "json/datasource_20211112.json", 
+			url: "json/datasource_2021201_merged.json", 
 			label: "", 
 			style: { color: "#ff7800", weight: 1, opacity: 0.4, fillOpacity: 0.1, className: "base-layer-data" },
 			fnOnEachFeature: null,
