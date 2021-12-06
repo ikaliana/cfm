@@ -148,7 +148,7 @@ function PopulateFilteredLayer(attr)
 	return tmpLayers;
 }
 
-function GetFilteredLayers(data)
+function GetFilteredLayers(department,data)
 {
 	var tmpFilteredLayers = [];
 	filteredIDs = [];
@@ -161,6 +161,11 @@ function GetFilteredLayers(data)
 	if(!filterMode) return [];
 
 	filteredData = {...data};
+	if(department !== "All")
+		filteredData = {
+			type: "FeatureCollection", 
+			features: filteredData.features.filter(function(feature) { return ( feature.properties.nomdpto == department ); })
+		}
 
 	$.each(VARS.FILTER, function(i,f) {
 		var tmpFilteredLayer = PopulateFilteredLayer(f)
@@ -172,10 +177,23 @@ function GetFilteredLayers(data)
 
 function GetCleanValue(val)
 {
-	return (val == "Sin información" || val == "N.A." || val == null) ? 0 : parseFloat(val.toString().replace(/[^\d\.\-]/g, ""));
+	return (
+		val == "Sin información" || val == "N.A." || val == null || val == "Sin informacion" || val == "S/i"
+	) ? 0 : parseFloat(val.toString().replace(/[^\d\.\-]/g, ""));
 }
 
-function PopulateGraph(data)
+function ZoomToCom(codigo)
+{
+	//baseLayers[baseLayerDataIndex]
+	//console.log(codigo);
+	baseLayers[baseLayerDataIndex].eachLayer(function (layer) {
+		if (layer.feature.properties.CODIGO === codigo) {
+			map.flyToBounds(layer.getBounds());
+		}
+	});
+}
+
+function PopulateGraph(data,department)
 {
 	/* ADD DOM FOR GRAPH CONTAINER */
 	if(graphControl != null) {
@@ -241,19 +259,36 @@ function PopulateGraph(data)
 	var infoComHeader = "";
 	var infoComContent = "";
 
+	var tmpComNames = jsonData.map(function(data) {
+		//return data.properties.Com_name;
+		var tmpComName = "";
+		tmpComName += "<a href='javascript:ZoomToCom(" + data.properties.CODIGO + ")'>";
+		tmpComName += data.properties.Com_name;
+		tmpComName += "</a>";
+
+		return tmpComName;
+	});
+	tmpComNames = [...new Set([...tmpComNames])];
+
 	if(communityName.length != 0) {
 		infoComHeader = " <small>(" + communityName.length + " selected)</small>";
-		infoComContent = communityName.join(", ");
+		infoComContent = tmpComNames.join(", ");
+		// infoComContent = communityName.join(", ");
 		// infographContent += "<li><h5 class='title'>Comunidad nativa <small>(" + communityName.length + " selected)</small></h5>";
 		// infographContent += "<span class='information-content text-success'>"+ communityName.join(", ") +"</span></li>";
 	}
 	else {
 		if(mainFilterLabel != "") {
-			var tmpComNames = jsonData.map(function(data) {
-				// console.log(data.properties.Com_name);
-				return data.properties.Com_name;
-			});
-			tmpComNames = [...new Set([...tmpComNames])];
+			// var tmpComNames = jsonData.map(function(data) {
+			// 	//return data.properties.Com_name;
+			// 	var tmpComName = "";
+			// 	tmpComName += "<a href='javascript:ZoomToCom(" + data.properties.CODIGO + ")'>";
+			// 	tmpComName += data.properties.Com_name;
+			// 	tmpComName += "</a>";
+
+			// 	return tmpComName;
+			// });
+			// tmpComNames = [...new Set([...tmpComNames])];
 
 			infoComHeader += "<br><small>(" + tmpComNames.length + " selected, ";
 			infoComHeader += "filtered by " + mainFilterLabel + ": " + mainFilterValue.join(", ") + ")</small>";
@@ -261,7 +296,7 @@ function PopulateGraph(data)
 		}
 		else {
 			infoComHeader = "";
-			infoComContent = "All communities in Ucayali";
+			infoComContent = "All communities in " + ((department=="All") ? "all department" : department);
 		}
 	}
 	infographContent += "<li><h5 class='title'>Comunidad nativa" + infoComHeader + "</h5>";
@@ -391,10 +426,10 @@ function ResetFilteredLayer()
 	filteredIDs = [];
 }
 
-function PopulateMap(data)
+function PopulateMap(department,data)
 {
 	ResetFilteredLayer();
-	filteredLayers = GetFilteredLayers(data);
+	filteredLayers = GetFilteredLayers(department,data);
 	if(filteredLayers.length == 0) filterMode = false;
 
 	//remove base layer popup if in Filter mode
@@ -408,7 +443,7 @@ function PopulateMap(data)
 	}
 
 	//add graph control
-	PopulateGraph(data);
+	PopulateGraph(data,department);
 
 	//add legend control
 	PopulateLegend();
@@ -488,7 +523,7 @@ function GetBaseLayer(data, option)
 function LoadMap(department)
 {
 	if(baseLayerCounter > 5) {
-		PopulateMap(baseLayers[baseLayerDataIndex].getGeojson()); 
+		PopulateMap(department,baseLayers[baseLayerDataIndex].getGeojson()); 
 		return;
 	}
 
@@ -529,10 +564,10 @@ function LoadMap(department)
 				map.fitBounds(tmpBaseLayer.getBounds());
 
 				L.easyButton( '<i class="fas fa-arrows-alt"></i>', function(){
-				  	map.fitBounds(tmpBaseLayer.getBounds());
+				  	map.flyToBounds(tmpBaseLayer.getBounds(), { animate: true });
 				}, 'Fit bound area to map').addTo(map);
 
-				PopulateMap(tmpBaseLayer.getGeojson()); 
+				PopulateMap(department,tmpBaseLayer.getGeojson()); 
 			};
 			fn_always = null;
 			// fn_always = function(jqXHR) { filterMode = false; SPIN.hide(); SPIN.reset(); };
