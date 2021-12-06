@@ -105,7 +105,8 @@ $("#btnreset").on("click", function() {
 	});
 
 	//re-generate infographic control
-	PopulateGraph(baseLayers[baseLayerDataIndex].getGeojson());
+	department = $("#department option:selected").val();
+	PopulateGraph(baseLayers[baseLayerDataIndex].getGeojson(),department);
 
 	//set filter mode to false
 	filterMode = false;
