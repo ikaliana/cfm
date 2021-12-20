@@ -15,6 +15,7 @@ var baseLayerDataIndex = 0;
 var baseLayerLegendControl = null;
 var mainFilterLabel = "";
 var mainFilterValue = null;
+var communityControl = null;
 
 function GetPopupContent(feature) {
 	function FormatValue(val,dec) {
@@ -184,13 +185,65 @@ function GetCleanValue(val)
 
 function ZoomToCom(codigo)
 {
-	//baseLayers[baseLayerDataIndex]
-	//console.log(codigo);
 	baseLayers[baseLayerDataIndex].eachLayer(function (layer) {
 		if (layer.feature.properties.CODIGO === codigo) {
-			map.flyToBounds(layer.getBounds());
+			// map.fitBounds(layer.getBounds(), { "animate": true,"pan": { "duration": 0.1 } });
+			map.flyToBounds(layer.getBounds(), { "animate": true,"pan": { "duration": 0.1 } });
 		}
 	});
+}
+
+function PopulateCommunityControl(jsonData) {
+	if(communityControl != null) {
+		communityControl.remove();
+		communityControl = null;
+	}
+
+	communityControl = L.control.info({
+		position: 'topright',
+		title: '<i class="fas fa-search-location"></i>',
+		titleTooltip: 'Zoom to Comunidad nativa',
+		maxWidth: '300px',
+		titleClass: 'box_info',
+		contentClass: 'box_info'
+	});
+
+	var comControlContent = "";
+	// comControlContent += "<form>";
+	comControlContent += "<div class='form-group' style='margin-bottom: 0'>";
+	comControlContent += "<div class='input-group'>";
+	comControlContent += "<div class='input-group-prepend'>";
+	comControlContent += "<span class='input-group-text' id='add-on-zoomto' style='min-width:40px'>";
+	comControlContent += "<span class='mx-auto'><i class='fas fa-search-location'></i></span>";
+	comControlContent += "</span>";
+	comControlContent += "</div>";
+	comControlContent += "<select class='form-control' id='comControlSelect' style='padding: 0'></select>";
+	comControlContent += "</div>";
+	comControlContent += "</div>";
+	// comControlContent += "</form>";
+
+	// communityControl.setContent("<div id='community-filter-container' class='info legend'>" + comControlContent + "</div>");
+	communityControl.setContent(comControlContent);
+	communityControl.setTitleTooltip("Comunidad nativa");
+	communityControl.addTo(map);
+
+	var comComboData = $.map(jsonData,function(f,i) { 
+		return { 
+			label: f.properties.Com_name, 
+			title: f.properties.Com_name, 
+			value: f.properties.CODIGO
+		}; 
+	});
+
+	$("#comControlSelect").multiselect({
+		maxHeight: 300, buttonWidth: '100%', inheritClass: true, enableCaseInsensitiveFiltering: true
+		,onChange: function(option, checked, select) { ZoomToCom( eval(option.val()) ); }
+	});
+	$("#comControlSelect").multiselect('dataprovider', comComboData);
+
+	//css hack back
+	$("#comControlSelect").parents("div.leaflet-popup-content-wraper").css("overflow-x","initial");
+	$("#comControlSelect").parents("div.leaflet-popup-content-wraper").css("overflow-y","initial");
 }
 
 function PopulateGraph(data,department)
@@ -256,51 +309,51 @@ function PopulateGraph(data,department)
 	infographContent += "<li><h4 class='title'>Clasificación de derechos sobre la tierra en las comunidades seleccionadas</h4></li>";
 
 	//Community name, if selected
-	var infoComHeader = "";
-	var infoComContent = "";
+	// var infoComHeader = "";
+	// var infoComContent = "";
 
-	var tmpComNames = jsonData.map(function(data) {
-		//return data.properties.Com_name;
-		var tmpComName = "";
-		tmpComName += "<a href='javascript:ZoomToCom(" + data.properties.CODIGO + ")'>";
-		tmpComName += data.properties.Com_name;
-		tmpComName += "</a>";
+	// var tmpComNames = jsonData.map(function(data) {
+	// 	//return data.properties.Com_name;
+	// 	var tmpComName = "";
+	// 	tmpComName += "<a href='javascript:ZoomToCom(" + data.properties.CODIGO + ")'>";
+	// 	tmpComName += data.properties.Com_name;
+	// 	tmpComName += "</a>";
 
-		return tmpComName;
-	});
-	tmpComNames = [...new Set([...tmpComNames])];
+	// 	return tmpComName;
+	// });
+	// tmpComNames = [...new Set([...tmpComNames])];
 
-	if(communityName.length != 0) {
-		infoComHeader = " <small>(" + communityName.length + " selected)</small>";
-		infoComContent = tmpComNames.join(", ");
-		// infoComContent = communityName.join(", ");
-		// infographContent += "<li><h5 class='title'>Comunidad nativa <small>(" + communityName.length + " selected)</small></h5>";
-		// infographContent += "<span class='information-content text-success'>"+ communityName.join(", ") +"</span></li>";
-	}
-	else {
-		if(mainFilterLabel != "") {
-			// var tmpComNames = jsonData.map(function(data) {
-			// 	//return data.properties.Com_name;
-			// 	var tmpComName = "";
-			// 	tmpComName += "<a href='javascript:ZoomToCom(" + data.properties.CODIGO + ")'>";
-			// 	tmpComName += data.properties.Com_name;
-			// 	tmpComName += "</a>";
+	// if(communityName.length != 0) {
+	// 	infoComHeader = " <small>(" + communityName.length + " selected)</small>";
+	// 	infoComContent = tmpComNames.join(", ");
+	// 	// infoComContent = communityName.join(", ");
+	// 	// infographContent += "<li><h5 class='title'>Comunidad nativa <small>(" + communityName.length + " selected)</small></h5>";
+	// 	// infographContent += "<span class='information-content text-success'>"+ communityName.join(", ") +"</span></li>";
+	// }
+	// else {
+	// 	if(mainFilterLabel != "") {
+	// 		// var tmpComNames = jsonData.map(function(data) {
+	// 		// 	//return data.properties.Com_name;
+	// 		// 	var tmpComName = "";
+	// 		// 	tmpComName += "<a href='javascript:ZoomToCom(" + data.properties.CODIGO + ")'>";
+	// 		// 	tmpComName += data.properties.Com_name;
+	// 		// 	tmpComName += "</a>";
 
-			// 	return tmpComName;
-			// });
-			// tmpComNames = [...new Set([...tmpComNames])];
+	// 		// 	return tmpComName;
+	// 		// });
+	// 		// tmpComNames = [...new Set([...tmpComNames])];
 
-			infoComHeader += "<br><small>(" + tmpComNames.length + " selected, ";
-			infoComHeader += "filtered by " + mainFilterLabel + ": " + mainFilterValue.join(", ") + ")</small>";
-			infoComContent = tmpComNames.join(", ");
-		}
-		else {
-			infoComHeader = "";
-			infoComContent = "All communities in " + ((department=="All") ? "all department" : department);
-		}
-	}
-	infographContent += "<li><h5 class='title'>Comunidad nativa" + infoComHeader + "</h5>";
-	infographContent += "<span class='information-content text-success'>" + infoComContent + "</span></li>";
+	// 		infoComHeader += "<br><small>(" + tmpComNames.length + " selected, ";
+	// 		infoComHeader += "filtered by " + mainFilterLabel + ": " + mainFilterValue.join(", ") + ")</small>";
+	// 		infoComContent = tmpComNames.join(", ");
+	// 	}
+	// 	else {
+	// 		infoComHeader = "";
+	// 		infoComContent = "All communities in " + ((department=="All") ? "all department" : department);
+	// 	}
+	// }
+	// infographContent += "<li><h5 class='title'>Comunidad nativa" + infoComHeader + "</h5>";
+	// infographContent += "<span class='information-content text-success'>" + infoComContent + "</span></li>";
 
 	// infographContent += "<li><h5 class='title'>Población</h5><span class='information-content'>"+ UTIL.formatNum(sumPopulation,0) +"</span></li>";
 	infographContent += "<li><h5 class='title'>Área demarcada</h5><span class='information-content text-success'>"+ UTIL.formatNum(sumDemar) +"</span></li>";
@@ -354,6 +407,13 @@ function PopulateGraph(data,department)
 	};
 
 	infographChart = new Chart(document.getElementById("infographic"),chartconfig);
+
+
+	/* DISPLAY COMMUNITY LIST CONTROLS */
+	if(filteredIDs.length == 1) {
+		ZoomToCom(filteredIDs[0]);
+	}
+	else PopulateCommunityControl(jsonData);
 }
 
 function PopulateLegend() 
@@ -564,7 +624,8 @@ function LoadMap(department)
 				map.fitBounds(tmpBaseLayer.getBounds());
 
 				L.easyButton( '<i class="fas fa-arrows-alt"></i>', function(){
-				  	map.flyToBounds(tmpBaseLayer.getBounds(), { animate: true });
+				  	map.fitBounds(tmpBaseLayer.getBounds(), { "animate": true });
+				  	// map.flyToBounds(tmpBaseLayer.getBounds(), { animate: true });
 				}, 'Fit bound area to map').addTo(map);
 
 				PopulateMap(department,tmpBaseLayer.getGeojson()); 
