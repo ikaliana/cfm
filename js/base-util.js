@@ -138,12 +138,12 @@ window.VARS = {
 			comboid: "#native-community",
 			multiselect: true
 		},
-		{
-			field: { lookup: "province", data: "provincia" },
-			desc: "Provincia",
-			comboid: "#province",
-			multiselect: true
-		},
+		// {
+		// 	field: { lookup: "province", data: "provincia" },
+		// 	desc: "Provincia",
+		// 	comboid: "#province",
+		// 	multiselect: true
+		// },
 		{
 			field: { lookup: "federation", data: "Federation" },
 			desc: "Federación",
@@ -162,12 +162,12 @@ window.VARS = {
 			comboid: "#titling",
 			multiselect: false
 		},
-		{
-			field: { lookup: "Perm_aprov", data: "Perm_aprov" },
-			desc: "Permiso de aprovechamiento forestal",
-			comboid: "#perm_aprov",
-			multiselect: false
-		},
+		// {
+		// 	field: { lookup: "Perm_aprov", data: "Perm_aprov" },
+		// 	desc: "Permiso de aprovechamiento forestal",
+		// 	comboid: "#perm_aprov",
+		// 	multiselect: false
+		// },
 		{
 			field: { lookup: "affiliated to the pncb", data: "Afil_PNCB" },
 			desc: "Afiliacion al PNCB",
