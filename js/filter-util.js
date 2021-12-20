@@ -88,6 +88,11 @@ $("#btnreset").on("click", function() {
 		legendControl = null;
 	}
 
+	if(communityControl != null) {
+		communityControl.remove();
+		communityControl = null;
+	}
+
 	//clear map from filtered layer
 	ResetFilteredLayer();	
 
