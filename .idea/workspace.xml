@@ -4,17 +4,6 @@
     <list default="true" id="6680ff1f-3282-4b1a-b901-6226397b8496" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/map-util.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/map-util.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/lookup/All.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/lookup/All.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/lookup/Amazonas.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/lookup/Amazonas.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/lookup/Cusco.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/lookup/Cusco.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/lookup/Huánuco.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/lookup/Huánuco.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/lookup/Junín.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/lookup/Junín.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/lookup/Loreto.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/lookup/Loreto.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/lookup/Madre de Dios.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/lookup/Madre de Dios.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/lookup/Pasco.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/lookup/Pasco.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/lookup/San Martín.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/lookup/San Martín.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/lookup/Ucayali.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/lookup/Ucayali.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/lookup/departement.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,13 +25,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/json" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/js" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/json" />
       <recent name="$PROJECT_DIR$/js" />
+      <recent name="$PROJECT_DIR$/json" />
       <recent name="$PROJECT_DIR$/images" />
     </key>
   </component>
@@ -54,7 +43,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1640133744431</updated>
-      <workItem from="1640133746036" duration="552000" />
+      <workItem from="1640133746036" duration="1397000" />
     </task>
     <servers />
   </component>

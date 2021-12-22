@@ -41,8 +41,6 @@ function GetPopupContent(feature) {
 	]
 	popupContent += UTIL.generatePopupContent(data);
 
-	popupContent += '<dl class="row pop-info"><div class="col-sm-12 text-center mt-2">';
-	popupContent += '<a class="view-more-info text-decoration-none" role="button" data-comname="' + p.Com_name + '">Ver más &raquo;</a></div></dl>';
 
 	return popupContent;
 }
@@ -314,51 +312,51 @@ function PopulateGraph(data,department)
 	infographContent += "<li><h4 class='title'>Clasificación de derechos sobre la tierra en las comunidades seleccionadas</h4></li>";
 
 	//Community name, if selected
-	// var infoComHeader = "";
-	// var infoComContent = "";
+	var infoComHeader = "";
+	var infoComContent = "";
 
-	// var tmpComNames = jsonData.map(function(data) {
-	// 	//return data.properties.Com_name;
-	// 	var tmpComName = "";
-	// 	tmpComName += "<a href='javascript:ZoomToCom(" + data.properties.CODIGO + ")'>";
-	// 	tmpComName += data.properties.Com_name;
-	// 	tmpComName += "</a>";
+	var tmpComNames = jsonData.map(function(data) {
+		//return data.properties.Com_name;
+		var tmpComName = "";
+		tmpComName += "<a href='javascript:ZoomToCom(" + data.properties.CODIGO + ")'>";
+		tmpComName += data.properties.Com_name;
+		tmpComName += "</a>";
 
-	// 	return tmpComName;
-	// });
-	// tmpComNames = [...new Set([...tmpComNames])];
+		return tmpComName;
+	});
+	tmpComNames = [...new Set([...tmpComNames])];
 
-	// if(communityName.length != 0) {
-	// 	infoComHeader = " <small>(" + communityName.length + " selected)</small>";
-	// 	infoComContent = tmpComNames.join(", ");
-	// 	// infoComContent = communityName.join(", ");
-	// 	// infographContent += "<li><h5 class='title'>Comunidad nativa <small>(" + communityName.length + " selected)</small></h5>";
-	// 	// infographContent += "<span class='information-content text-success'>"+ communityName.join(", ") +"</span></li>";
-	// }
-	// else {
-	// 	if(mainFilterLabel != "") {
-	// 		// var tmpComNames = jsonData.map(function(data) {
-	// 		// 	//return data.properties.Com_name;
-	// 		// 	var tmpComName = "";
-	// 		// 	tmpComName += "<a href='javascript:ZoomToCom(" + data.properties.CODIGO + ")'>";
-	// 		// 	tmpComName += data.properties.Com_name;
-	// 		// 	tmpComName += "</a>";
+	if(communityName.length != 0) {
+		infoComHeader = " <small>(" + communityName.length + " selected)</small>";
+		infoComContent = tmpComNames.join(", ");
+		// infoComContent = communityName.join(", ");
+		// infographContent += "<li><h5 class='title'>Comunidad nativa <small>(" + communityName.length + " selected)</small></h5>";
+		// infographContent += "<span class='information-content text-success'>"+ communityName.join(", ") +"</span></li>";
+	}
+	else {
+		if(mainFilterLabel != "") {
+			// var tmpComNames = jsonData.map(function(data) {
+			// 	//return data.properties.Com_name;
+			// 	var tmpComName = "";
+			// 	tmpComName += "<a href='javascript:ZoomToCom(" + data.properties.CODIGO + ")'>";
+			// 	tmpComName += data.properties.Com_name;
+			// 	tmpComName += "</a>";
 
-	// 		// 	return tmpComName;
-	// 		// });
-	// 		// tmpComNames = [...new Set([...tmpComNames])];
+			// 	return tmpComName;
+			// });
+			// tmpComNames = [...new Set([...tmpComNames])];
 
-	// 		infoComHeader += "<br><small>(" + tmpComNames.length + " selected, ";
-	// 		infoComHeader += "filtered by " + mainFilterLabel + ": " + mainFilterValue.join(", ") + ")</small>";
-	// 		infoComContent = tmpComNames.join(", ");
-	// 	}
-	// 	else {
-	// 		infoComHeader = "";
-	// 		infoComContent = "All communities in " + ((department=="All") ? "all department" : department);
-	// 	}
-	// }
-	// infographContent += "<li><h5 class='title'>Comunidad nativa" + infoComHeader + "</h5>";
-	// infographContent += "<span class='information-content text-success'>" + infoComContent + "</span></li>";
+			infoComHeader += "<br><small>(" + tmpComNames.length + " selected, ";
+			infoComHeader += "filtered by " + mainFilterLabel + ": " + mainFilterValue.join(", ") + ")</small>";
+			infoComContent = tmpComNames.join(", ");
+		}
+		else {
+			infoComHeader = "";
+			infoComContent = "All communities in " + ((department=="All") ? "all department" : department);
+		}
+	}
+	infographContent += "<li><h5 class='title'>Comunidad nativa" + infoComHeader + "</h5>";
+	infographContent += "<span class='information-content text-success'>" + infoComContent + "</span></li>";
 
 	// infographContent += "<li><h5 class='title'>Población</h5><span class='information-content'>"+ UTIL.formatNum(sumPopulation,0) +"</span></li>";
 	infographContent += "<li><h5 class='title'>Área demarcada</h5><span class='information-content text-success'>"+ UTIL.formatNum(sumDemar) +"</span></li>";
@@ -413,12 +411,17 @@ function PopulateGraph(data,department)
 
 	infographChart = new Chart(document.getElementById("infographic"),chartconfig);
 
+	console.log(filteredIDs.length);
 
 	/* DISPLAY COMMUNITY LIST CONTROLS */
 	if(filteredIDs.length == 1) {
 		ZoomToCom(filteredIDs[0]);
 	}
-	else PopulateCommunityControl(jsonData);
+
+	if(filteredIDs.length > 1) {
+ 		PopulateCommunityControl(jsonData);
+	}
+
 }
 
 function PopulateLegend() 
