@@ -30,11 +30,14 @@ function GetPopupContent(feature) {
 		{ 'label': 'Pueblo indígena', 'value': p.PUEBLO_IND },
 		{ 'label': 'Población', 'value': FormatValue(p.Población,0) },
 		{ 'label': 'Estado de titulación', 'value': p.SIT_TITUL },
+/*
 		{ 'label': 'Fecha de titulación', 'value': p.Fecha_TITU },
+		{ 'label': 'Permiso forestal', 'value': p.Cate_aprov },
+*/
 		{ 'label': 'Superficie total', 'value': FormatValue(p.AREA_DEMAR,2) },
 		{ 'label': 'Federation', 'value': p.Federation },
 		{ 'label': 'Afiliacion al PNCB', 'value': p.Afil_PNCB },
-		{ 'label': 'Permiso forestal', 'value': p.Cate_aprov },
+
 	]
 	popupContent += UTIL.generatePopupContent(data);
 
@@ -188,6 +191,8 @@ function ZoomToCom(codigo)
 	baseLayers[baseLayerDataIndex].eachLayer(function (layer) {
 		if (layer.feature.properties.CODIGO === codigo) {
 			// map.fitBounds(layer.getBounds(), { "animate": true,"pan": { "duration": 0.1 } });
+
+
 			map.flyToBounds(layer.getBounds(), { "animate": true,"pan": { "duration": 0.1 } });
 		}
 	});
