@@ -419,8 +419,11 @@ function PopulateGraph(data,department)
 	}
 
 	if(filteredIDs.length > 1) {
- 		PopulateCommunityControl(jsonData);
+		ZoomToCom(filteredIDs[1]);
+
+		PopulateCommunityControl(jsonData);
 	}
+
 
 }
 
